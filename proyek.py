@@ -2,15 +2,15 @@ import matplotlib.pyplot as plt
 from mpl_toolkits.mplot3d.art3d import Poly3DCollection
 import numpy as np
 
-def affine_transform(points, matrix, translation):
-    transformed_points = np.dot(points, matrix.T) + translation
-    return transformed_points
+def transformasi_affine(titik, matrix, translation):
+    transformed_titik = np.dot(titik, matrix.T) + translation
+    return transformed_titik
 
-def scale_matrix(scaling_factors):
+def matrix_skala(scaling_factors):
     return np.diag(scaling_factors)
 
 # Titik-titik kubus
-points = np.array([
+titik = np.array([
     [0, 0, 0],
     [1, 0, 0],
     [1, 1, 0],
@@ -23,61 +23,64 @@ points = np.array([
 
 # Matriks translasi affine
 affine_matrix_translation = np.eye(3)
-translation_vector = np.array([2, 2, 0])
+translation_vector = np.array([2, 2, 0])#menentukan translasi
 
 # Melakukan translasi affine
-transformed_points_translation = affine_transform(points, affine_matrix_translation, translation_vector)
+titik_translasi = transformasi_affine(titik, affine_matrix_translation, translation_vector)
 
 # Matriks skala affine
-scaling_factors = np.array([2, 1, 1])
-affine_matrix_scale = scale_matrix(scaling_factors)
+scaling_factors = np.array([2, 1, 1])#menentukan skala
+affine_matrix_scale = matrix_skala(scaling_factors)
 
 # Melakukan transformasi skala
-transformed_points_scale = affine_transform(points, affine_matrix_scale, np.zeros(3))
+titik_skala = transformasi_affine(titik, affine_matrix_scale, np.zeros(3))
 
 # Membuat plot 3D
 fig, ax = plt.subplots(1, 2, figsize=(12, 5), subplot_kw={'projection': '3d'})
 
-# Plot untuk translasi
-ax[0].set_title('Transformasi Translasi')
-transformasi_sebelum_translation = Poly3DCollection([[points[0], points[1], points[2], points[3]],
-                                [points[4], points[5], points[6], points[7]],
-                                [points[0], points[1], points[5], points[4]],
-                                [points[2], points[3], points[7], points[6]],
-                                [points[1], points[2], points[6], points[5]],
-                                [points[0], points[3], points[7], points[4]]],
-                                facecolors='cyan', linewidths=1, edgecolors='r', alpha=0.5)
+# Plot untuk translasi sebelum
+ax[0].set_title('Objek Sebelum Translasi')
+transformasi_sebelum_translation = Poly3DCollection([[titik[0], titik[1], titik[2], titik[3]],
+                                [titik[4], titik[5], titik[6], titik[7]],
+                                [titik[0], titik[1], titik[5], titik[4]],
+                                [titik[2], titik[3], titik[7], titik[6]],
+                                [titik[1], titik[2], titik[6], titik[5]],
+                                [titik[0], titik[3], titik[7], titik[4]]],
+                                facecolors='cyan', linewidths=1, edgecolors='r', alpha=0.5, label='Sebelum Translasi')
 ax[0].add_collection3d(transformasi_sebelum_translation)
 
-# Plot untuk skala
-ax[1].set_title('Transformasi Skala')
-transformasi_sebelum_scale = Poly3DCollection([[points[0], points[1], points[2], points[3]],
-                                [points[4], points[5], points[6], points[7]],
-                                [points[0], points[1], points[5], points[4]],
-                                [points[2], points[3], points[7], points[6]],
-                                [points[1], points[2], points[6], points[5]],
-                                [points[0], points[3], points[7], points[4]]],
-                                facecolors='cyan', linewidths=1, edgecolors='r', alpha=0.5)
+# Plot untuk skala sebelum
+ax[1].set_title('Objek Sebelum Skala')
+transformasi_sebelum_scale = Poly3DCollection([[titik[0], titik[1], titik[2], titik[3]],
+                                [titik[4], titik[5], titik[6], titik[7]],
+                                [titik[0], titik[1], titik[5], titik[4]],
+                                [titik[2], titik[3], titik[7], titik[6]],
+                                [titik[1], titik[2], titik[6], titik[5]],
+                                [titik[0], titik[3], titik[7], titik[4]]],
+                                facecolors='cyan', linewidths=1, edgecolors='r', alpha=0.5, label='Sebelum Skala')
 ax[1].add_collection3d(transformasi_sebelum_scale)
 
-# Menambahkan translasi dan skala pada subplot
-transformasi_sesudah_translation = Poly3DCollection([[transformed_points_translation[0], transformed_points_translation[1], transformed_points_translation[2], transformed_points_translation[3]],
-                                [transformed_points_translation[4], transformed_points_translation[5], transformed_points_translation[6], transformed_points_translation[7]],
-                                [transformed_points_translation[0], transformed_points_translation[1], transformed_points_translation[5], transformed_points_translation[4]],
-                                [transformed_points_translation[2], transformed_points_translation[3], transformed_points_translation[7], transformed_points_translation[6]],
-                                [transformed_points_translation[1], transformed_points_translation[2], transformed_points_translation[6], transformed_points_translation[5]],
-                                [transformed_points_translation[0], transformed_points_translation[3], transformed_points_translation[7], transformed_points_translation[4]]],
-                                facecolors='magenta', linewidths=1, edgecolors='b', alpha=0.5)
-ax[0].add_collection3d(transformasi_sesudah_translation)
+# Plot untuk translasi setelah
+transformasi_sesudah_translasi = Poly3DCollection([[titik_translasi[0], titik_translasi[1], titik_translasi[2], titik_translasi[3]],
+                                [titik_translasi[4], titik_translasi[5], titik_translasi[6], titik_translasi[7]],
+                                [titik_translasi[0], titik_translasi[1], titik_translasi[5], titik_translasi[4]],
+                                [titik_translasi[2], titik_translasi[3], titik_translasi[7], titik_translasi[6]],
+                                [titik_translasi[1], titik_translasi[2], titik_translasi[6], titik_translasi[5]],
+                                [titik_translasi[0], titik_translasi[3], titik_translasi[7], titik_translasi[4]]],
+                                facecolors='magenta', linewidths=1, edgecolors='b', alpha=0.5, label='Setelah Translasi')
+ax[0].add_collection3d(transformasi_sesudah_translasi)
+ax[0].set_title('Transformasi Translasi')  # Tambahkan judul
 
-transformasi_sesudah_scale = Poly3DCollection([[transformed_points_scale[0], transformed_points_scale[1], transformed_points_scale[2], transformed_points_scale[3]],
-                                [transformed_points_scale[4], transformed_points_scale[5], transformed_points_scale[6], transformed_points_scale[7]],
-                                [transformed_points_scale[0], transformed_points_scale[1], transformed_points_scale[5], transformed_points_scale[4]],
-                                [transformed_points_scale[2], transformed_points_scale[3], transformed_points_scale[7], transformed_points_scale[6]],
-                                [transformed_points_scale[1], transformed_points_scale[2], transformed_points_scale[6], transformed_points_scale[5]],
-                                [transformed_points_scale[0], transformed_points_scale[3], transformed_points_scale[7], transformed_points_scale[4]]],
-                                facecolors='yellow', linewidths=1, edgecolors='g', alpha=0.5)
-ax[1].add_collection3d(transformasi_sesudah_scale)
+# Plot untuk skala setelah
+transformasi_sesudah_skala = Poly3DCollection([[titik_skala[0], titik_skala[1], titik_skala[2], titik_skala[3]],
+                                [titik_skala[4], titik_skala[5], titik_skala[6], titik_skala[7]],
+                                [titik_skala[0], titik_skala[1], titik_skala[5], titik_skala[4]],
+                                [titik_skala[2], titik_skala[3], titik_skala[7], titik_skala[6]],
+                                [titik_skala[1], titik_skala[2], titik_skala[6], titik_skala[5]],
+                                [titik_skala[0], titik_skala[3], titik_skala[7], titik_skala[4]]],
+                                facecolors='yellow', linewidths=1, edgecolors='g', alpha=0.5, label='Setelah Skala')
+ax[1].add_collection3d(transformasi_sesudah_skala)
+ax[1].set_title('Transformasi Skala')  # Tambahkan judul
 
 # Menampilkan legenda
 ax[0].legend()
